@@ -1,6 +1,83 @@
 // ignore_for_file: depend_on_referenced_packages
 import 'package:flutter/material.dart';
+import 'package:shimmer_premium/core/util/mycolor.dart';
 import 'package:vector_math/vector_math_64.dart' as degree;
+
+class ShimmerRepo {
+  Widget getImage({
+    double height = 35,
+    double width = 35,
+    Color color = MyColor.inActiveColor,
+    double borderRadius = 2,
+    BoxShape shape = BoxShape.rectangle,
+  }) =>
+      Container(
+        width: height,
+        height: width,
+        constraints: const BoxConstraints.expand(),
+        decoration: shape == BoxShape.rectangle
+            ? BoxDecoration(
+                color: color,
+                borderRadius: BorderRadius.circular(borderRadius),
+              )
+            : BoxDecoration(color: color, shape: BoxShape.circle),
+      );
+
+  Widget getTitle({
+    double height = 150,
+    double width = 8,
+    Color color = MyColor.inActiveColor,
+    double borderRadius = 2,
+  }) =>
+      Container(
+        width: height,
+        height: width,
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(borderRadius),
+        ),
+      );
+
+  Widget getSubTitle({
+    double height = 200,
+    double width = 4,
+    Color color = MyColor.inActiveColor,
+    double borderRadius = 2,
+  }) =>
+      Container(
+        width: height,
+        height: width,
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(borderRadius),
+        ),
+      );
+
+  Widget getDivider({
+    Color color = MyColor.inActiveColor,
+    double thickness = .5,
+    double height = 16,
+    double width = 20,
+    Axis shape = Axis.horizontal,
+  }) =>
+      shape == Axis.horizontal
+          ? Divider(color: color, height: height, thickness: thickness)
+          : VerticalDivider(color: color, width: width, thickness: thickness);
+  Widget getBodyTitle({
+    double height = 20,
+    double width = double.infinity,
+    Color color = MyColor.bodyGreyColor,
+    double borderRadius = 7.5,
+  }) =>
+      Container(
+        width: height,
+        height: width,
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(borderRadius),
+        ),
+      );
+}
 
 class ShimmerPremium extends StatefulWidget {
   const ShimmerPremium(
@@ -8,7 +85,7 @@ class ShimmerPremium extends StatefulWidget {
       required this.child,
       required this.itemHeight,
       this.itemWidth,
-      this.heightLightColor = Colors.white,
+      this.highlightColor = Colors.white,
       this.secondaryColor = Colors.white38,
       this.length = 1,
       this.itemSeparateHeightWidth = 0,
@@ -17,7 +94,7 @@ class ShimmerPremium extends StatefulWidget {
   final Widget child;
   final double itemHeight;
   final double? itemWidth;
-  final Color heightLightColor;
+  final Color highlightColor;
   final Color secondaryColor;
   final int length;
   final double itemSeparateHeightWidth;
@@ -41,7 +118,7 @@ class _ShimmerPremiumState extends State<ShimmerPremium>
     //WidgetsBinding.instance.addPostFrameCallback((_) => _getSize());
     _controller = AnimationController(vsync: this, duration: widget.duration);
     _colorAnimation =
-        ColorTween(begin: widget.heightLightColor, end: widget.secondaryColor)
+        ColorTween(begin: widget.highlightColor, end: widget.secondaryColor)
             .animate(_controller);
     _controller.repeat();
   }

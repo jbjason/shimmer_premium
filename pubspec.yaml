@@ -21,6 +21,7 @@ flutter:
 
   assets:
     - assets/images/
+    - CHANGELOG.md
 
   fonts:
     - family: Rubik_Regular
