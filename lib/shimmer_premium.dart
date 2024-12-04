@@ -1,9 +1,12 @@
-// ignore_for_file: depend_on_referenced_packages
+// ignore_for_file: depend_on_referenced_packages, deprecated_member_use
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:shimmer_premium/core/util/mycolor.dart';
 import 'package:vector_math/vector_math_64.dart' as degree;
 
-class ShimmerRepo {
+enum ShimmerListType { horizontalList, verticalList, gridViewList }
+
+class ShimmerPremiumRepo {
   Widget getImage({
     double height = 35,
     double width = 35,
@@ -65,13 +68,13 @@ class ShimmerRepo {
           : VerticalDivider(color: color, width: width, thickness: thickness);
   Widget getBodyTitle({
     double height = 20,
-    double width = double.infinity,
+    double? width,
     Color color = MyColor.bodyGreyColor,
     double borderRadius = 7.5,
   }) =>
       Container(
         width: height,
-        height: width,
+        height: width ?? window.physicalSize.width / window.devicePixelRatio,
         decoration: BoxDecoration(
           color: color,
           borderRadius: BorderRadius.circular(borderRadius),
@@ -83,22 +86,30 @@ class ShimmerPremium extends StatefulWidget {
   const ShimmerPremium(
       {super.key,
       required this.child,
-      required this.itemHeight,
-      this.itemWidth,
+      this.childBackgrounColor = MyColor.cardBackgroundColor,
+      this.childBorderRadius = 12,
+      this.childBorderWidth = .4,
+      this.childBorderColor = MyColor.inActiveColor,
+      required this.childHeight,
+      this.childWidth,
       this.highlightColor = Colors.white,
       this.secondaryColor = Colors.white38,
       this.length = 1,
       this.itemSeparateHeightWidth = 0,
-      this.scrollDirection = Axis.vertical,
+      this.shimmerListType = ShimmerListType.verticalList,
       this.duration = const Duration(milliseconds: 1300)});
   final Widget child;
-  final double itemHeight;
-  final double? itemWidth;
+  final Color childBackgrounColor;
+  final double childHeight;
+  final double? childWidth;
+  final double childBorderRadius;
+  final double childBorderWidth;
+  final Color childBorderColor;
   final Color highlightColor;
   final Color secondaryColor;
   final int length;
   final double itemSeparateHeightWidth;
-  final Axis scrollDirection;
+  final ShimmerListType shimmerListType;
   final Duration duration;
   @override
   State<ShimmerPremium> createState() => _ShimmerPremiumState();
@@ -109,7 +120,7 @@ class _ShimmerPremiumState extends State<ShimmerPremium>
   late AnimationController _controller;
   late Animation<Color?> _colorAnimation;
   bool _isVerticalScroll = true;
-  double _shimmerItemWidth = 0;
+  double _shimmerchildWidth = 0;
   //final GlobalKey _sizeKey = GlobalKey();
 
   @override
@@ -126,27 +137,45 @@ class _ShimmerPremiumState extends State<ShimmerPremium>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _isVerticalScroll = widget.scrollDirection == Axis.vertical;
-    _shimmerItemWidth = widget.itemWidth ?? MediaQuery.of(context).size.width;
+    _isVerticalScroll = widget.shimmerListType == ShimmerListType.verticalList;
+    _shimmerchildWidth = widget.childWidth ?? MediaQuery.of(context).size.width;
   }
 
   @override
   Widget build(BuildContext context) {
-    return _isVerticalScroll
-        ? SingleChildScrollView(
-            child: Column(
-                children: List.generate(widget.length, (i) => _getShimmeritem)),
-          )
-        : SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-                children: List.generate(widget.length, (i) => _getShimmeritem)),
-          );
+    final size = MediaQuery.of(context).size;
+    if (_isVerticalScroll) {
+      return SingleChildScrollView(
+        child: Column(
+            children: List.generate(widget.length, (i) => _getShimmeritem)),
+      );
+    } else if (widget.shimmerListType == ShimmerListType.horizontalList) {
+      return SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child:
+            Row(children: List.generate(widget.length, (i) => _getShimmeritem)),
+      );
+    } else {
+      return SizedBox(
+        height: size.height,
+        child: GridView(
+          scrollDirection: Axis.horizontal,
+          shrinkWrap: true,
+          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+            maxCrossAxisExtent: widget.childWidth ?? size.width / 2,
+            childAspectRatio: 1.07,
+            crossAxisSpacing: widget.itemSeparateHeightWidth,
+            mainAxisSpacing: widget.itemSeparateHeightWidth,
+          ),
+          children: List.generate(8, (i) => _getShimmeritem),
+        ),
+      );
+    }
   }
 
   Widget get _getShimmeritem => Container(
-        height: widget.itemHeight,
-        width: _shimmerItemWidth,
+        height: widget.childHeight,
+        width: _shimmerchildWidth,
         margin: EdgeInsets.only(
           bottom: _isVerticalScroll ? widget.itemSeparateHeightWidth : 0,
           right: _isVerticalScroll ? 0 : widget.itemSeparateHeightWidth,
@@ -165,8 +194,8 @@ class _ShimmerPremiumState extends State<ShimmerPremium>
                   alignment: Alignment.center,
                   transform: Matrix4.identity()
                     ..rotateZ(degree.radians(70))
-                    ..translate(_shimmerItemWidth * _controller.value,
-                        1 - (_shimmerItemWidth * _controller.value)),
+                    ..translate(_shimmerchildWidth * _controller.value,
+                        1 - (_shimmerchildWidth * _controller.value)),
                   child: Container(
                     decoration: BoxDecoration(
                       boxShadow: [
