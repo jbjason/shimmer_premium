@@ -1,7 +1,7 @@
 name: shimmer_premium
-description: "A new Flutter project."
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 1.0.0+1
+description: "A lightweight and Highly customizable Flutter package to add shimmer effects as loading placeholders"
+version: 0.0.1
+repository: "https://github.com/jbjason/shimmer_premium/tree/main"
 
 environment:
   sdk: ^3.5.3
