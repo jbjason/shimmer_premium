@@ -1,4 +1,4 @@
-<img width=30% height=14% src="https://github.com/user-attachments/assets/71cb7a16-e6f0-4fb2-80a4-19301d2819c3">
+<img width=30% height=14% src=" ">
 
 This is a simple yet highly customizable package for all kind of users.
 
@@ -15,7 +15,7 @@ Add the following line to your `pubspec.yaml`:
 
 ```dart
 dependencies:
-  shimmer_premium: ^0.0.8  //Run flutter pub get to install the package.
+  shimmer_premium: ^0.0.1  //Run flutter pub get to install the package.
 ```
 
 ## Usage
@@ -25,13 +25,11 @@ Here's a quick example to get started:
 import 'package:shimmer_premium/shimmer_premium.dart';
 
   ShimmerPremium(
-     itemHeight: 95,
-     length: 4,
-     itemSeparateHeightWidth: 20,
-     highlightColor: Colors.greenAccent,
-     secondaryColor: Colors.green,
-     scrollDirection: Axis.vertical,
-     child: _getChild(),
+    length: 10,
+    childDecoration: const ShimmerChildDecoration(childHeight: 95),
+    shimmerListType: ShimmerListType.verticalList,
+    // deafult child, change as you like
+    child: ShimmerPremiumRepo().getDefaultChild, 
   ),
 ```
 

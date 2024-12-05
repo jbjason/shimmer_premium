@@ -26,67 +26,23 @@ class ShimmerLoadingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(title: const Text("Shimmer Loading"), centerTitle: true),
       body: SafeArea(
-        child: Column(
-          children: [
-            ShimmerPremium(
-              childHeight: 95,
-              length: 4,
-              itemSeparateHeightWidth: 20,
-              highlightColor: Colors.greenAccent,
-              secondaryColor: Colors.green,
-              child: _getChild(size),
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(15),
+          child: Column(
+            children: [
+              ShimmerPremium(
+                length: 10,
+                childDecoration: const ShimmerChildDecoration(childHeight: 95),
+                shimmerListType: ShimmerListType.verticalList,
+                child: ShimmerPremiumRepo().getDefaultChild,
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
-
-  Widget _getChild(Size size) => Container(
-        margin: const EdgeInsets.symmetric(horizontal: 12),
-        padding: const EdgeInsets.all(10),
-        height: 95,
-        child: Column(
-          children: [
-            Row(
-              children: [
-                ShimmerPremiumRepo().getImage(
-                  height: 35,
-                  width: 35,
-                ),
-                // SizedBox(
-                //   height: 35,
-                //   width: 35,
-                //   child: Container(
-                //     color: MyColor.inActiveColor,
-                //     constraints: const BoxConstraints.expand(),
-                //   ),
-                // ),
-                const SizedBox(width: 15),
-                ShimmerPremiumRepo().getTitle(),
-                // Container(
-                //   width: 150,
-                //   height: 8,
-                //   color: MyColor.inActiveColor,
-                // ),
-              ],
-            ),
-            ShimmerPremiumRepo().getDivider(),
-            // const Divider(color: MyColor.inActiveColor, thickness: .5),
-            ShimmerPremiumRepo().getBodyTitle(),
-            // Container(
-            //   width: size.width,
-            //   padding: const EdgeInsets.all(10),
-            //   decoration: BoxDecoration(
-            //     color: MyColor.bodyGreyColor,
-            //     borderRadius: BorderRadius.circular(7.5),
-            //   ),
-            // ),
-          ],
-        ),
-      );
 }
