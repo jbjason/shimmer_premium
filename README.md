@@ -25,11 +25,9 @@ Here's a quick example to get started:
 import 'package:shimmer_premium/shimmer_premium.dart';
 
   ShimmerPremium(
-    length: 10,
     childDecoration: const ShimmerChildDecoration(childHeight: 95),
-    shimmerListType: ShimmerListType.verticalList,
-    // deafult child, change as you like
     child: ShimmerPremiumRepo().getDefaultChild, 
+    // deafult child, change as you like
   ),
 ```
 
@@ -37,24 +35,66 @@ import 'package:shimmer_premium/shimmer_premium.dart';
 ## Parameters
 
 ```dart
-  // set how many childs you may require
-  final int length;
-  // set child as you would like
-  final Widget child;
-  // set height of your child
-  final double itemHeight;
-  // set width of your child
-  final double? itemWidth;
-  // set the primary/starting color
-  final Color highlightColor;
-  // set the secondary color
-  final Color secondaryColor;
-  // set the height when scrollDirection=Axis.vertical & Width scrollDirection=Axis.horizontal
-  final double itemSeparateHeightWidth;
-  // set the scroll direction as you like when scrollDirection=Axis.vertical/Axis.horizontal
-  final Axis scrollDirection;
-  // set the duration of your each shimmer animation 
-  final Duration duration;
+  // set ChildDecoration class as you want
+  ChildDecoration(
+    // set how many childs you may require
+    final int childLength;
+    // set child as you would like
+    final Widget child;
+    // set height of your child
+    final double childHeight;
+    // set width of your child
+    final double? childWidth;
+    // set child's background color
+    final Color childBackgrounColor;
+    // set borderRadius of the child 
+    final double childBorderRadius;
+    // set borderWidth of the child 
+    final double childBorderWidth;
+    // set borderColor of the child 
+    final Color childBorderColor;
+  )
+  // set Shimmer's Decoration as you want
+  class ShimmerDecoration{
+    // 
+    final ShimmerListType shimmerListType;
+    // set the primary/starting color
+    final Color highlightColor;
+    // set the secondary color
+    final Color secondaryColor;
+    // set the duration of your each shimmer animation 
+    final Duration duration;
+    // set your shimmer when the child's are in vertical order
+    verticalList: ShimmerVerticalList(
+      // set the item separateHeight
+      final double itemSeparateHeight
+    )
+    // set your shimmer when the child's are in horizontal order
+    horizontalList: ShimmerHorizontalList(
+      // set the item separateWidth
+      final double itemSeparateWidth
+    )
+    // set your shimmer when the child's are in gridView order
+    gridList: ShimmerGridList(
+      // set the Grid items total height
+      final double screenHeight;
+      // set the direction of scrolling
+      final Axis scrollDirection;
+      // set if you want to reverse the list
+      final bool reverse;
+      // set the number of child's it shows in each row
+      final int crossExisCount;
+      // set space between each elemant in each row
+      final double crossAxisSpacing;
+      // set space between each elemant between each column
+      final double mainAxisSpacing;
+      // set space aspectRatio of your each child
+      final double childAspectRatio;
+      // set the clipBehavior
+      final Clip clipBehavior;
+    )
+  }
+  
 ```
 
 ## Example

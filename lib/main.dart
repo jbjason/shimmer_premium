@@ -1,4 +1,3 @@
-// ignore_for_file: depend_on_referenced_packages
 import 'package:flutter/material.dart';
 import 'package:shimmer_premium/config/theme/theme.dart';
 import 'package:shimmer_premium/shimmer_premium.dart';
@@ -34,10 +33,11 @@ class ShimmerLoadingScreen extends StatelessWidget {
           child: Column(
             children: [
               ShimmerPremium(
-                length: 10,
-                childDecoration: const ShimmerChildDecoration(childHeight: 95),
-                shimmerListType: ShimmerListType.verticalList,
-                child: ShimmerPremiumRepo().getDefaultChild,
+                childDecoration: ChildDecoration(
+                  child: ShimmerPremiumRepo().getDefaultChild,
+                  childLength: 5,
+                  childHeight: 95,
+                ),
               ),
             ],
           ),

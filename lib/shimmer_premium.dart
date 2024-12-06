@@ -9,27 +9,11 @@ enum ShimmerListType { horizontalList, verticalList, gridViewList }
 class ShimmerPremium extends StatefulWidget {
   const ShimmerPremium({
     super.key,
-    this.length = 1,
-    required this.child,
     required this.childDecoration,
-    this.highlightColor = Colors.white,
-    this.secondaryColor = Colors.white38,
-    this.duration = const Duration(milliseconds: 1300),
-    this.shimmerListType = ShimmerListType.verticalList,
-    this.verticalList = const ShimmerVerticalList(itemSeparateHeight: 15),
-    this.horizontalList = const ShimmerHorizontalList(itemSeparateWidth: 15),
-    this.gridList = const ShimmerGridList(),
+    this.shimmerDecoration = const ShimmerDecoration(),
   });
-  final int length;
-  final Widget child;
-  final ShimmerChildDecoration childDecoration;
-  final Color highlightColor;
-  final Color secondaryColor;
-  final Duration duration;
-  final ShimmerListType shimmerListType;
-  final ShimmerVerticalList? verticalList;
-  final ShimmerHorizontalList? horizontalList;
-  final ShimmerGridList? gridList;
+  final ChildDecoration childDecoration;
+  final ShimmerDecoration shimmerDecoration;
   @override
   State<ShimmerPremium> createState() => _ShimmerPremiumState();
 }
@@ -54,48 +38,62 @@ class _ShimmerPremiumState extends State<ShimmerPremium>
     final view = PlatformDispatcher.instance.views.first;
     _shimmerchildWidth = widget.childDecoration.childWidth ??
         view.physicalSize.width / view.devicePixelRatio;
-    if (widget.shimmerListType == ShimmerListType.verticalList) {
-      _itemSeparateHeight = widget.verticalList!.itemSeparateHeight;
-    } else if (widget.shimmerListType == ShimmerListType.horizontalList) {
-      _itemSeparateWidth = widget.horizontalList!.itemSeparateWidth;
+    if (widget.shimmerDecoration.shimmerListType ==
+        ShimmerListType.verticalList) {
+      _itemSeparateHeight =
+          widget.shimmerDecoration.verticalList.itemSeparateHeight;
+    } else if (widget.shimmerDecoration.shimmerListType ==
+        ShimmerListType.horizontalList) {
+      _itemSeparateWidth =
+          widget.shimmerDecoration.horizontalList.itemSeparateWidth;
     }
     // animation controller initialize
-    _controller = AnimationController(vsync: this, duration: widget.duration);
-    _colorAnimation =
-        ColorTween(begin: widget.highlightColor, end: widget.secondaryColor)
-            .animate(_controller);
+    _controller = AnimationController(
+        vsync: this, duration: widget.shimmerDecoration.duration);
+    _colorAnimation = ColorTween(
+            begin: widget.shimmerDecoration.highlightColor,
+            end: widget.shimmerDecoration.secondaryColor)
+        .animate(_controller);
     _controller.repeat();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (widget.shimmerListType == ShimmerListType.verticalList) {
+    if (widget.shimmerDecoration.shimmerListType ==
+        ShimmerListType.verticalList) {
       return Column(
-        children: List.generate(widget.length, (i) => _getShimmeritem),
+        children: List.generate(
+            widget.childDecoration.childLength, (i) => _getShimmeritem),
       );
-    } else if (widget.shimmerListType == ShimmerListType.horizontalList) {
+    } else if (widget.shimmerDecoration.shimmerListType ==
+        ShimmerListType.horizontalList) {
       return SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
-          children: List.generate(widget.length, (i) => _getShimmeritem),
+          children: List.generate(
+              widget.childDecoration.childLength, (i) => _getShimmeritem),
         ),
       );
     } else {
       return SafeArea(
         child: SizedBox(
-          height: widget.gridList!.screenHeight,
+          height: widget.shimmerDecoration.gridList.screenHeight,
           child: GridView.count(
-            crossAxisCount: widget.gridList!.crossExisCount,
-            mainAxisSpacing: widget.gridList!.mainAxisSpacing,
-            crossAxisSpacing: widget.gridList!.crossAxisSpacing,
-            childAspectRatio: widget.gridList!.screenHeight /
-                widget.gridList!.crossExisCount /
+            crossAxisCount: widget.shimmerDecoration.gridList.crossExisCount,
+            mainAxisSpacing: widget.shimmerDecoration.gridList.mainAxisSpacing,
+            crossAxisSpacing:
+                widget.shimmerDecoration.gridList.crossAxisSpacing,
+            childAspectRatio: widget.shimmerDecoration.gridList.screenHeight /
+                widget.shimmerDecoration.gridList.crossExisCount /
                 widget.childDecoration.childHeight,
-            clipBehavior: widget.gridList!.clipBehavior,
-            scrollDirection: widget.gridList!.scrollDirection,
-            reverse: widget.gridList!.reverse,
+            clipBehavior: widget.shimmerDecoration.gridList.clipBehavior,
+            scrollDirection: widget.shimmerDecoration.gridList.scrollDirection,
+            reverse: widget.shimmerDecoration.gridList.reverse,
             shrinkWrap: true,
-            children: List.generate(widget.length, (i) => _getShimmeritem),
+            children: List.generate(
+              widget.childDecoration.childLength,
+              (i) => _getShimmeritem,
+            ),
           ),
         ),
       );
@@ -121,7 +119,7 @@ class _ShimmerPremiumState extends State<ShimmerPremium>
                   width: widget.childDecoration.childBorderWidth,
                 ),
               ),
-              child: widget.child,
+              child: widget.childDecoration.child,
             ),
             Positioned(
               left: 20,
@@ -168,6 +166,47 @@ class _ShimmerPremiumState extends State<ShimmerPremium>
   }
 }
 
+class ChildDecoration {
+  final Widget child;
+  final int childLength;
+  final double childHeight;
+  final double? childWidth;
+  final Color childBackgrounColor;
+  final double childBorderRadius;
+  final double childBorderWidth;
+  final Color childBorderColor;
+  const ChildDecoration({
+    required this.child,
+    this.childLength = 1,
+    required this.childHeight,
+    this.childWidth,
+    this.childBackgrounColor = MyColor.cardBackgroundColor,
+    this.childBorderRadius = 12,
+    this.childBorderWidth = .4,
+    this.childBorderColor = MyColor.inActiveColor,
+  });
+}
+
+class ShimmerDecoration {
+  final ShimmerListType shimmerListType;
+  final Color highlightColor;
+  final Color secondaryColor;
+  final Duration duration;
+  final ShimmerVerticalList verticalList;
+  final ShimmerHorizontalList horizontalList;
+  final ShimmerGridList gridList;
+
+  const ShimmerDecoration({
+    this.shimmerListType = ShimmerListType.verticalList,
+    this.highlightColor = Colors.white,
+    this.secondaryColor = Colors.white38,
+    this.duration = const Duration(milliseconds: 1300),
+    this.verticalList = const ShimmerVerticalList(itemSeparateHeight: 15),
+    this.horizontalList = const ShimmerHorizontalList(itemSeparateWidth: 15),
+    this.gridList = const ShimmerGridList(),
+  });
+}
+
 class ShimmerGridList {
   const ShimmerGridList({
     this.screenHeight = 350,
@@ -197,23 +236,6 @@ class ShimmerVerticalList {
 class ShimmerHorizontalList {
   final double itemSeparateWidth;
   const ShimmerHorizontalList({this.itemSeparateWidth = 15});
-}
-
-class ShimmerChildDecoration {
-  final double childHeight;
-  final double? childWidth;
-  final Color childBackgrounColor;
-  final double childBorderRadius;
-  final double childBorderWidth;
-  final Color childBorderColor;
-  const ShimmerChildDecoration({
-    required this.childHeight,
-    this.childWidth,
-    this.childBackgrounColor = MyColor.cardBackgroundColor,
-    this.childBorderRadius = 12,
-    this.childBorderWidth = .4,
-    this.childBorderColor = MyColor.inActiveColor,
-  });
 }
 
 class ShimmerPremiumRepo {
