@@ -1,7 +1,6 @@
-// ignore_for_file: depend_on_referenced_packages
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:vector_math/vector_math_64.dart' as degree;
+import 'package:vector_math/vector_math.dart' as degree;
 import 'package:shimmer_premium/core/util/mycolor.dart';
 
 enum ShimmerListType { horizontalList, verticalList, gridViewList }
@@ -44,6 +43,7 @@ class _ShimmerPremiumState extends State<ShimmerPremium>
           widget.shimmerDecoration.verticalList.itemSeparateHeight;
     } else if (widget.shimmerDecoration.shimmerListType ==
         ShimmerListType.horizontalList) {
+      _shimmerchildWidth = _shimmerchildWidth * 3 / 4;
       _itemSeparateWidth =
           widget.shimmerDecoration.horizontalList.itemSeparateWidth;
     }
@@ -177,7 +177,7 @@ class ChildDecoration {
   final Color childBorderColor;
   const ChildDecoration({
     required this.child,
-    this.childLength = 1,
+    this.childLength = 2,
     required this.childHeight,
     this.childWidth,
     this.childBackgrounColor = MyColor.cardBackgroundColor,
@@ -342,6 +342,32 @@ class ShimmerPremiumRepo {
               ],
             ),
             ShimmerPremiumRepo().getDivider(),
+            FittedBox(child: ShimmerPremiumRepo().getBodyTitle()),
+          ],
+        ),
+      );
+  Widget get getDefaultGridChild => Container(
+        margin: const EdgeInsets.symmetric(horizontal: 12),
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                ShimmerPremiumRepo().getImage(height: 35, width: 35),
+                const SizedBox(width: 10),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ShimmerPremiumRepo().getTitle(width: 40),
+                    const SizedBox(height: 5),
+                    ShimmerPremiumRepo().getSubTitle(width: 50),
+                  ],
+                ),
+              ],
+            ),
+            ShimmerPremiumRepo().getDivider(),
+            FittedBox(child: ShimmerPremiumRepo().getBodyTitle()),
+            const SizedBox(height: 10),
             FittedBox(child: ShimmerPremiumRepo().getBodyTitle()),
           ],
         ),

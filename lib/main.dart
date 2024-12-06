@@ -25,6 +25,7 @@ class ShimmerLoadingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(title: const Text("Shimmer Loading"), centerTitle: true),
       body: SafeArea(
@@ -32,11 +33,38 @@ class ShimmerLoadingScreen extends StatelessWidget {
           padding: const EdgeInsets.all(15),
           child: Column(
             children: [
+              // vertical list example
               ShimmerPremium(
                 childDecoration: ChildDecoration(
                   child: ShimmerPremiumRepo().getDefaultChild,
-                  childLength: 5,
+                  childLength: 8,
                   childHeight: 95,
+                ),
+                shimmerDecoration: const ShimmerDecoration(
+                    shimmerListType: ShimmerListType.verticalList),
+              ),
+              const SizedBox(height: 30),
+              // horizontal list example
+              ShimmerPremium(
+                childDecoration: ChildDecoration(
+                  child: ShimmerPremiumRepo().getDefaultChild,
+                  childLength: 8,
+                  childHeight: 95,
+                ),
+                shimmerDecoration: const ShimmerDecoration(
+                    shimmerListType: ShimmerListType.horizontalList),
+              ),
+              const SizedBox(height: 30),
+              // gridview example
+              ShimmerPremium(
+                childDecoration: ChildDecoration(
+                  child: ShimmerPremiumRepo().getDefaultGridChild,
+                  childLength: 8,
+                  childHeight: 250,
+                ),
+                shimmerDecoration: ShimmerDecoration(
+                  shimmerListType: ShimmerListType.gridViewList,
+                  gridList: ShimmerGridList(screenHeight: size.height * .85),
                 ),
               ),
             ],
