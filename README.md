@@ -30,7 +30,30 @@ import 'package:shimmer_premium/shimmer_premium.dart';
     // deafult child, change as you like
   ),
 ```
+### Repository Helpline
+You can create child with the help of this Repo. it's simple to use & affective
 
+```dart
+import 'package:shimmer_premium/shimmer_premium.dart';
+
+// if you want circular avatar
+ShimmerPremiumRepo().getCircle()
+// if you want circular or simple or simple-with borderRadius image avata
+ShimmerPremiumRepo().getImage()
+// if you want a title
+ShimmerPremiumRepo().getTitle()
+// if you want a subTitle
+ShimmerPremiumRepo().getSubTitle()
+// if you want a divider
+ShimmerPremiumRepo().getDivider()
+// if you want a bodyTitle
+ShimmerPremiumRepo().getBodyTitle()
+// if you want getDefaultChild for vertical/horizontal list
+ShimmerPremiumRepo().getDefaultChild
+// if you want getDefaultChild for gridList
+ShimmerPremiumRepo().getDefaultGridChild
+
+```
 
 ## Parameters
 
