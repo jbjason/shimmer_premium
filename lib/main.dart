@@ -31,43 +31,61 @@ class ShimmerLoadingScreen extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(15),
-          child: Column(
-            children: [
-              // vertical list example
-              ShimmerPremium(
-                childDecoration: ChildDecoration(
-                  child: ShimmerPremiumRepo().getDefaultChild,
-                  childLength: 8,
-                  childHeight: 95,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Horzontal List",
+                    style: Theme.of(context).textTheme.titleMedium),
+                const SizedBox(height: 5),
+                // horizontal list example
+                ShimmerPremium(
+                  childDecoration: ChildDecoration(
+                    child: ShimmerPremiumRepo().getDefaultChild,
+                    childLength: 2,
+                    childHeight: 95,
+                  ),
+                  shimmerDecoration: const ShimmerDecoration(
+                      highlightColor: Colors.pink,
+                      secondaryColor: Colors.pinkAccent,
+                      shimmerListType: ShimmerListType.horizontalList),
                 ),
-                shimmerDecoration: const ShimmerDecoration(
-                    shimmerListType: ShimmerListType.verticalList),
-              ),
-              const SizedBox(height: 30),
-              // horizontal list example
-              ShimmerPremium(
-                childDecoration: ChildDecoration(
-                  child: ShimmerPremiumRepo().getDefaultChild,
-                  childLength: 8,
-                  childHeight: 95,
+                const SizedBox(height: 20),
+                Text("Vertical List",
+                    style: Theme.of(context).textTheme.titleMedium),
+                const SizedBox(height: 5),
+                // vertical list example
+                ShimmerPremium(
+                  childDecoration: ChildDecoration(
+                    child: ShimmerPremiumRepo().getDefaultChild,
+                    childLength: 2,
+                    childHeight: 95,
+                  ),
+                  shimmerDecoration: const ShimmerDecoration(
+                      highlightColor: Colors.pink,
+                      secondaryColor: Colors.pinkAccent,
+                      shimmerListType: ShimmerListType.verticalList),
                 ),
-                shimmerDecoration: const ShimmerDecoration(
-                    shimmerListType: ShimmerListType.horizontalList),
-              ),
-              const SizedBox(height: 30),
-              // gridview example
-              ShimmerPremium(
-                childDecoration: ChildDecoration(
-                  child: ShimmerPremiumRepo().getDefaultGridChild,
-                  childLength: 8,
-                  childHeight: 250,
+                const SizedBox(height: 20),
+                Text("GridView List",
+                    style: Theme.of(context).textTheme.titleMedium),
+                const SizedBox(height: 5),
+                // gridview example
+                ShimmerPremium(
+                  childDecoration: ChildDecoration(
+                    child: ShimmerPremiumRepo().getDefaultGridChild,
+                    childLength: 4,
+                    childHeight: 250,
+                  ),
+                  shimmerDecoration: ShimmerDecoration(
+                    highlightColor: Colors.pink,
+                    secondaryColor: Colors.pinkAccent,
+                    shimmerListType: ShimmerListType.gridViewList,
+                    gridList: ShimmerGridList(screenHeight: size.height * .85),
+                  ),
                 ),
-                shimmerDecoration: ShimmerDecoration(
-                  shimmerListType: ShimmerListType.gridViewList,
-                  gridList: ShimmerGridList(screenHeight: size.height * .85),
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

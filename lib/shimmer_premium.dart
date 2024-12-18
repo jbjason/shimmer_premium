@@ -90,6 +90,7 @@ class _ShimmerPremiumState extends State<ShimmerPremium>
             scrollDirection: widget.shimmerDecoration.gridList.scrollDirection,
             reverse: widget.shimmerDecoration.gridList.reverse,
             shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
             children: List.generate(
               widget.childDecoration.childLength,
               (i) => _getShimmeritem,
